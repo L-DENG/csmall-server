@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.li.csmall.passport.mapper.AdminMapper">
+
+
+
+
+    <!--AdminLoginVO getLoginInfoByUsername(String username)-->
+    <select id="getLoginInfoByUsername" resultMap="AdminLoginResultMap">
+        select
+            <include refid="AdminLoginQueryFields"/>
+        from ams_admin
+        left join ams_admin_role  on ams_admin.id = ams_admin_role.admin_id
+        left join ams_role_permission on ams_admin_role.role_id = ams_role_permission.role_id
+        left join ams_permission on ams_permission.id = ams_role_permission.permission_id
+        where username = #{username}
+    </select>
+
+    <sql id="AdminLoginQueryFields">
+       ams_admin.id,
+       ams_admin.username,
+       ams_admin.password,
+       ams_admin.is_enable,
+       ams_permission.value as permission_value
+    </sql>
+
+    <resultMap id="AdminLoginResultMap" type="com.li.csmall.pojo.vo.AdminLoginVO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="is_enable" property="isEnable"/>
+        <collection property="permissions" ofType="java.lang.String">
+            <result column="permission_value" property="permissions"/>
+        </collection>
+    </resultMap>
+</mapper>

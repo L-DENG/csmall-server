@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type:
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+knife4j:
+  enable: true
+
+#security key must have at least 4 characters
+csmall:
+  jwt:
+    security-key: eyJjdHkiOiJIUz#%^&%aXNWRcIn0se1w$^%&TiYXV0aG9yaXR5XC

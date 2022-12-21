@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+  profiles:
+    active: dev
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

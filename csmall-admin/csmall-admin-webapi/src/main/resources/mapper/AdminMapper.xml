@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.li.csmall.admin.webapi.mapper.AdminMapper">
+
+    <!--int insert(Admin admin)-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into ams_admin (username, password, nickname, avatar, phone,
+                               email, description, is_enable, last_login_ip,
+                               login_count, gmt_last_login, gmt_create, gmt_modified
+        )values (#{username}, #{password}, #{nickname}, #{avatar}, #{phone},
+                #{email}, #{description}, #{isEnable}, #{lastLoginIp},
+                #{loginCount}, #{gmtLastLogin}, #{gmtCreate}, #{gmtModified}
+        )
+    </insert>
+
+
+    <!--AdminPermissionSimpleDTO getByUsername(String name);-->
+    <select id="getByUsername" resultMap="AdminPermission">
+        select
+            <include refid="AdminPermissionQueryFields"/>
+        from ams_admin
+        left join ams_admin_role  on ams_admin.id = ams_admin_role.admin_id
+        left join ams_role_permission on ams_admin_role.role_id = ams_role_permission.role_id
+        left join ams_permission on ams_permission.id = ams_role_permission.permission_id
+        where username = #{username}
+    </select>
+
+
+    <sql id="AdminPermissionQueryFields">
+       ams_admin.id,
+       ams_admin.username,
+       ams_admin.password,
+       ams_admin.is_enable,
+       ams_permission.value as permission_value
+    </sql>
+
+    <resultMap id="AdminPermission" type="com.li.csmall.pojo.dto.AdminPermissionSimpleDTO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="is_enable" property="isEnable"/>
+        <collection property="value" ofType="com.li.csmall.pojo.entity.Permission">
+            <result column="permission_value" property="value"/>
+        </collection>
+    </resultMap>
+
+</mapper>

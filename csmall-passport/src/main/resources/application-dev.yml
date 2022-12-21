@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mall_ams?useUnicode=true&characterEncoding=UTF-8&serverTimezone=datasource.url=jdbc:mysql://localhost:3306/mall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Australia/Sydney
+    username: root
+    password: 123456
+
+logging:
+  level:
+    com.li.csmall.passport: trace
